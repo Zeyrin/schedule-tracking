@@ -3,7 +3,6 @@ import 'package:smart_admin_dashboard/core/constants/color_constants.dart';
 import 'package:smart_admin_dashboard/core/widgets/app_button_widget.dart';
 import 'package:smart_admin_dashboard/core/widgets/input_widget.dart';
 import 'package:smart_admin_dashboard/screens/home/home_screen.dart';
-import 'package:smart_admin_dashboard/screens/login/components/slider_widget.dart';
 
 class Login extends StatefulWidget {
   Login({required this.title});
@@ -60,12 +59,12 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
         children: <Widget>[
           Row(
             children: <Widget>[
-              Container(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width / 2,
-                color: Colors.white,
-                child: SliderWidget(),
-              ),
+              // Container(
+              //   height: MediaQuery.of(context).size.height,
+              //   width: MediaQuery.of(context).size.width / 2,
+              //   color: Colors.white,
+              //   child: SliderWidget(),
+              // ),
               Container(
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width / 2,

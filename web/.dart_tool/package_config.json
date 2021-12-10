@@ -176,6 +176,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "firebase",
+      "rootUri": "file:///C:/SRC/flutter2.5.3/.pub-cache/hosted/pub.dartlang.org/firebase-9.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "firebase_auth",
       "rootUri": "file:///C:/SRC/flutter2.5.3/.pub-cache/hosted/pub.dartlang.org/firebase_auth-3.3.3",
       "packageUri": "lib/",
@@ -453,7 +459,7 @@
     },
     {
       "name": "provider",
-      "rootUri": "file:///C:/SRC/flutter2.5.3/.pub-cache/hosted/pub.dartlang.org/provider-5.0.0",
+      "rootUri": "file:///C:/SRC/flutter2.5.3/.pub-cache/hosted/pub.dartlang.org/provider-6.0.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -614,7 +620,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2021-12-09T02:31:48.866955Z",
+  "generated": "2021-12-10T02:43:47.526687Z",
   "generator": "pub",
   "generatorVersion": "2.14.4"
 }

@@ -54,25 +54,25 @@ class _ImageUploadState extends State<ImageUpload> {
             () => showSnackBar("Image Uploaded", Duration(seconds: 2)));
   }
 
-  Future uploadRequest(String _request) async {
-    final reqId = DateTime.now().millisecondsSinceEpoch.toString();
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    Reference reference = FirebaseStorage.instance
-        .ref()
-        .child('${widget.userId}/requests')
-        .child("post_$reqId");
+  // Future uploadRequest(String _request) async {
+  //   final reqId = DateTime.now().millisecondsSinceEpoch.toString();
+  //   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  //   Reference reference = FirebaseStorage.instance
+  //       .ref()
+  //       .child('${widget.userId}/requests')
+  //       .child("post_$reqId");
 
-    await reference.putString(_request);
-    // downloadURL = await reference.getDownloadURL();
+  //   await reference.putString(_request);
+  //   // downloadURL = await reference.getDownloadURL();
 
-    // cloud firestore
-    await firebaseFirestore
-        .collection("users")
-        .doc(widget.userId)
-        .collection("requests")
-        .add({'request': _request}).whenComplete(
-            () => showSnackBar("Request posted", Duration(seconds: 2)));
-  }
+  //   // cloud firestore
+  //   await firebaseFirestore
+  //       .collection("users")
+  //       .doc(widget.userId)
+  //       .collection("requests")
+  //       .add({'request': _request}).whenComplete(
+  //           () => showSnackBar("Request posted", Duration(seconds: 2)));
+  // }
 
   @override
   Widget build(BuildContext context) {

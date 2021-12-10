@@ -85,12 +85,9 @@ class _UploadScreenState extends State<UploadScreen> {
                                     ),
                                     ElevatedButton(
                                         onPressed: () {
-                                          if (requestController != null) {
+                                          if (requestController.text != null) {
                                             uploadRequest(
-                                                requestController.toString());
-                                          } else {
-                                            showSnackBar("Select Image first",
-                                                Duration(milliseconds: 400));
+                                                requestController.text);
                                           }
                                         },
                                         child: const Text("Upload Request")),
@@ -112,7 +109,7 @@ class _UploadScreenState extends State<UploadScreen> {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     Reference reference = FirebaseStorage.instance
         .ref()
-        .child('${widget.userId}/requests')
+        .child('${loggedInUser.uid}/requests')
         .child("post_$reqId");
 
     await reference.putString(_request);
@@ -121,7 +118,7 @@ class _UploadScreenState extends State<UploadScreen> {
     // cloud firestore
     await firebaseFirestore
         .collection("users")
-        .doc(widget.userId)
+        .doc(loggedInUser.uid)
         .collection("requests")
         .add({'request': _request}).whenComplete(
             () => showSnackBar("Request posted", Duration(seconds: 2)));

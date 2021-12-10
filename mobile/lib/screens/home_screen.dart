@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:schedule_tracking/models/user_model.dart';
 import 'package:schedule_tracking/screens/user/file_picker.dart';
 import 'package:schedule_tracking/screens/user/profile_screen_user.dart';
 import 'package:schedule_tracking/screens/user/statistics_screen_user.dart';
@@ -15,6 +17,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  User? user = FirebaseAuth.instance.currentUser;
+  UserModel loggedInUser = UserModel();
+  TextEditingController requestController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -80,4 +85,18 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Text('Lol'),
         ),
       );
+
+//   checkRole(DocumentSnapshot snapshot) {
+//     if (snapshot.data == null) {
+//       return Center(
+//         child: Text('no data set in the userId document in firestore'),
+//       );
+//     }
+//     if (snapshot.data['role'] == 'admin') {
+//       return LoginScreen();
+//     } else {
+//       return RegistrationScreen();
+//     }
+//   }
+// }
 }
