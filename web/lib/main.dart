@@ -8,7 +8,14 @@ import 'package:smart_admin_dashboard/screens/login/login_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: FirebaseOptions(
+      apiKey: "AIzaSyCVUog-NkCCxB2reaEvWYZp2Wqupvacc9I",
+      appId: "1:266255154147:android:cdc34002616c0d7f77bed6",
+      messagingSenderId: "schedule-d1cae",
+      projectId: "schedule-d1cae",
+    ),
+  );
   runApp(MyApp());
 }
 
