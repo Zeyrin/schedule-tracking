@@ -1,9 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:smart_admin_dashboard/core/constants/color_constants.dart';
 import 'package:smart_admin_dashboard/core/widgets/app_button_widget.dart';
-import 'package:smart_admin_dashboard/core/widgets/input_widget.dart';
 import 'package:smart_admin_dashboard/screens/home/home_screen.dart';
 import 'package:smart_admin_dashboard/screens/login/components/slider_widget.dart';
 
@@ -22,6 +21,8 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
 
   final _auth = FirebaseAuth.instance;
   String? errorMessage;
+  String? uid;
+  String? userEmail;
 
   //form key
   final _formKey = GlobalKey<FormState>();
@@ -61,58 +62,58 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final emailField = TextFormField(
-      autofocus: false,
-      controller: emailController,
-      keyboardType: TextInputType.emailAddress,
-      validator: (value) {
-        if (value!.isEmpty) {
-          return ("Please enter your email");
-        }
-        // reg expression for email validation
-        if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)) {
-          return ("Please Enter a valid email");
-        }
-        return null;
-      },
-      onSaved: (value) {
-        emailController.text = value!;
-      },
-      textInputAction: TextInputAction.next,
-      decoration: InputDecoration(
-          prefixIcon: const Icon(Icons.mail),
-          contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-          hintText: "Email",
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-          )),
-    );
+    // final emailField = TextFormField(
+    //   autofocus: false,
+    //   controller: emailController,
+    //   keyboardType: TextInputType.emailAddress,
+    //   validator: (value) {
+    //     if (value!.isEmpty) {
+    //       return ("Please enter your email");
+    //     }
+    //     // reg expression for email validation
+    //     if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)) {
+    //       return ("Please Enter a valid email");
+    //     }
+    //     return null;
+    //   },
+    //   onSaved: (value) {
+    //     emailController.text = value!;
+    //   },
+    //   textInputAction: TextInputAction.next,
+    //   decoration: InputDecoration(
+    //       prefixIcon: const Icon(Icons.mail),
+    //       contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+    //       hintText: "Email",
+    //       border: OutlineInputBorder(
+    //         borderRadius: BorderRadius.circular(10),
+    //       )),
+    // );
 
-    final passwordField = TextFormField(
-      autofocus: false,
-      controller: passwordController,
-      obscureText: true,
-      validator: (value) {
-        RegExp regex = new RegExp(r'^.{6,}$');
-        if (value!.isEmpty) {
-          return ("Password is required for login");
-        }
-        if (!regex.hasMatch(value)) {
-          return ("Enter Valid Password (Min. 6 Characters)");
-        }
-      },
-      onSaved: (value) {
-        passwordController.text = value!;
-      },
-      textInputAction: TextInputAction.done,
-      decoration: InputDecoration(
-          prefixIcon: const Icon(Icons.vpn_key),
-          contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-          hintText: "Password",
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-          )),
-    );
+    // final passwordField = TextFormField(
+    //   autofocus: false,
+    //   controller: passwordController,
+    //   obscureText: true,
+    //   validator: (value) {
+    //     RegExp regex = new RegExp(r'^.{6,}$');
+    //     if (value!.isEmpty) {
+    //       return ("Password is required for login");
+    //     }
+    //     if (!regex.hasMatch(value)) {
+    //       return ("Enter Valid Password (Min. 6 Characters)");
+    //     }
+    //   },
+    //   onSaved: (value) {
+    //     passwordController.text = value!;
+    //   },
+    //   textInputAction: TextInputAction.done,
+    //   decoration: InputDecoration(
+    //       prefixIcon: const Icon(Icons.vpn_key),
+    //       contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+    //       hintText: "Password",
+    //       border: OutlineInputBorder(
+    //         borderRadius: BorderRadius.circular(10),
+    //       )),
+    // );
 
 //////// register
 
@@ -347,65 +348,66 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            InputWidget(
+            TextFormField(
+              autofocus: false,
+              controller: emailController,
               keyboardType: TextInputType.emailAddress,
-              onSaved: (String? value) {
-                // This optional block of code can be used to run
-                // code when the user saves the form.
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return ("Please enter your email");
+                }
+                // reg expression for email validation
+                if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                    .hasMatch(value)) {
+                  return ("Please Enter a valid email");
+                }
+                return null;
               },
-              onChanged: (String? value) {
-                // This optional block of code can be used to run
-                // code when the user saves the form.
+              onSaved: (value) {
+                emailController.text = value!;
               },
-              validator: (String? value) {
-                return (value != null && value.contains('@'))
-                    ? 'Do not use the @ char.'
-                    : null;
-              },
-              topLabel: "Name",
-              hintText: "Enter Name",
-              // prefixIcon: FlutterIcons.chevron_left_fea,
+              textInputAction: TextInputAction.next,
+              decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.mail),
+                  contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+                  hintText: "Email",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  )),
             ),
-            SizedBox(height: 8.0),
-            InputWidget(
-              keyboardType: TextInputType.emailAddress,
-              onSaved: (String? value) {
-                // This optional block of code can be used to run
-                // code when the user saves the form.
-              },
-              onChanged: (String? value) {
-                // This optional block of code can be used to run
-                // code when the user saves the form.
-              },
-              validator: (String? value) {
-                return (value != null && value.contains('@'))
-                    ? 'Do not use the @ char.'
-                    : null;
-              },
-
-              topLabel: "Email",
-
-              hintText: "Enter E-mail",
-              // prefixIcon: FlutterIcons.chevron_left_fea,
-            ),
-            SizedBox(height: 8.0),
-            InputWidget(
-              topLabel: "Password",
+            SizedBox(height: 24.0),
+            TextFormField(
+              autofocus: false,
+              controller: passwordController,
               obscureText: true,
-              hintText: "Enter Password",
-              onSaved: (String? uPassword) {},
-              onChanged: (String? value) {},
-              validator: (String? value) {},
+              validator: (value) {
+                RegExp regex = new RegExp(r'^.{6,}$');
+                if (value!.isEmpty) {
+                  return ("Password is required for login");
+                }
+                if (!regex.hasMatch(value)) {
+                  return ("Enter Valid Password (Min. 6 Characters)");
+                }
+              },
+              onSaved: (value) {
+                passwordController.text = value!;
+              },
+              textInputAction: TextInputAction.done,
+              decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.vpn_key),
+                  contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+                  hintText: "Password",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  )),
             ),
             SizedBox(height: 24.0),
             AppButton(
               type: ButtonType.PRIMARY,
-              text: "Sign Up",
+              text: "Register",
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => HomeScreen()),
-                );
+                registerWithEmailPassword(
+                    emailController.text, passwordController.text);
               },
             ),
             SizedBox(height: 24.0),
@@ -476,23 +478,99 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             SizedBox(height: 8.0),
-            InputWidget(
-              topLabel: "Password",
-              obscureText: true,
-              hintText: "Enter Password",
-              onSaved: (String? uPassword) {},
-              onChanged: (String? value) {},
-              validator: (String? value) {},
+            //email field
+            TextFormField(
+              autofocus: false,
+              controller: emailController,
+              keyboardType: TextInputType.emailAddress,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return ("Please enter your email");
+                }
+                // reg expression for email validation
+                if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                    .hasMatch(value)) {
+                  return ("Please Enter a valid email");
+                }
+                return null;
+              },
+              onSaved: (value) {
+                emailController.text = value!;
+              },
+              textInputAction: TextInputAction.next,
+              decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.mail),
+                  contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+                  hintText: "Email",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  )),
             ),
             SizedBox(height: 24.0),
+            TextFormField(
+              autofocus: false,
+              controller: passwordController,
+              obscureText: true,
+              validator: (value) {
+                RegExp regex = new RegExp(r'^.{6,}$');
+                if (value!.isEmpty) {
+                  return ("Password is required for login");
+                }
+                if (!regex.hasMatch(value)) {
+                  return ("Enter Valid Password (Min. 6 Characters)");
+                }
+              },
+              onSaved: (value) {
+                passwordController.text = value!;
+              },
+              textInputAction: TextInputAction.done,
+              decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.vpn_key),
+                  contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+                  hintText: "Password",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  )),
+            ),
+            SizedBox(height: 24.0),
+            // TextButton(
+            //   style: TextButton.styleFrom(
+            //     primary: Colors.blueGrey.shade800,
+            //     shape: RoundedRectangleBorder(
+            //       borderRadius: BorderRadius.circular(15),
+            //     ),
+            //   ),
+            //   onPressed: () async {
+            //     await registerWithEmailPassword(emailEditingController.text,
+            //             passwordEditingController.text)
+            //         .then((result) {
+            //       if (result != null) {
+            //         print(result);
+            //       }
+            //     }).catchError((error) {
+            //       print('Registration Error: $error');
+            //     });
+            //   },
+            //   child: Padding(
+            //     padding: EdgeInsets.only(
+            //       top: 15.0,
+            //       bottom: 15.0,
+            //     ),
+            //     child: Text(
+            //       'Sign uiiiip',
+            //       style: TextStyle(
+            //         fontSize: 14,
+            //         color: Colors.white,
+            //       ),
+            //     ),
+            //   ),
+            // ),
             AppButton(
               type: ButtonType.PRIMARY,
               text: "Sign In",
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => HomeScreen()),
-                );
+                //emailController.text, passwordController.text
+                signInWithEmailPassword("lol.lol@lol.com", "123456");
               },
             ),
             SizedBox(height: 24.0),
@@ -565,43 +643,100 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
     );
   }
 
-  void signIn(String email, String password) async {
-    if (_formKey.currentState!.validate()) {
-      try {
-        await _auth
-            .signInWithEmailAndPassword(email: email, password: password)
-            .then((uid) => {
-                  Fluttertoast.showToast(msg: "Login Successful"),
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => HomeScreen())),
-                });
-      } on FirebaseAuthException catch (error) {
-        switch (error.code) {
-          case "invalid-email":
-            errorMessage = "Your email address appears to be malformed.";
+  // void signIn(String email, String password) async {
+  //   if (_formKey.currentState!.validate()) {
+  //     try {
+  //       await _auth
+  //           .signInWithEmailAndPassword(email: email, password: password)
+  //           .then((uid) => {
+  //                 Fluttertoast.showToast(msg: "Login Successful"),
+  //                 Navigator.push(
+  //                     context,
+  //                     MaterialPageRoute(
+  //                         builder: (context) => DashboardScreen())),
+  //               });
+  //     } on FirebaseAuthException catch (error) {
+  //       switch (error.code) {
+  //         case "invalid-email":
+  //           errorMessage = "Your email address appears to be malformed.";
 
-            break;
-          case "wrong-password":
-            errorMessage = "Your password is wrong.";
-            break;
-          case "user-not-found":
-            errorMessage = "User with this email doesn't exist.";
-            break;
-          case "user-disabled":
-            errorMessage = "User with this email has been disabled.";
-            break;
-          case "too-many-requests":
-            errorMessage = "Too many requests";
-            break;
-          case "operation-not-allowed":
-            errorMessage = "Signing in with Email and Password is not enabled.";
-            break;
-          default:
-            errorMessage = "An undefined Error happened.";
-        }
-        Fluttertoast.showToast(msg: errorMessage!);
-        print(error.code);
+  //           break;
+  //         case "wrong-password":
+  //           errorMessage = "Your password is wrong.";
+  //           break;
+  //         case "user-not-found":
+  //           errorMessage = "User with this email doesn't exist.";
+  //           break;
+  //         case "user-disabled":
+  //           errorMessage = "User with this email has been disabled.";
+  //           break;
+  //         case "too-many-requests":
+  //           errorMessage = "Too many requests";
+  //           break;
+  //         case "operation-not-allowed":
+  //           errorMessage = "Signing in with Email and Password is not enabled.";
+  //           break;
+  //         default:
+  //           errorMessage = "An undefined Error happened.";
+  //       }
+  //       Fluttertoast.showToast(msg: errorMessage!);
+  //       print(error.code);
+  //     }
+  //   }
+  // }
+
+  Future<User?> registerWithEmailPassword(String email, String password) async {
+    // Initialize Firebase
+    await Firebase.initializeApp();
+    User? user;
+
+    try {
+      UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      user = userCredential.user;
+
+      if (user != null) {
+        uid = user.uid;
+        userEmail = user.email;
+      }
+    } catch (e) {
+      print(e);
+    }
+
+    return user;
+  }
+
+  Future<User?> signInWithEmailPassword(String email, String password) async {
+    await Firebase.initializeApp();
+    User? user;
+
+    try {
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      user = userCredential.user;
+
+      if (user != null) {
+        uid = user.uid;
+        userEmail = user.email;
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => HomeScreen()));
+        // SharedPreferences prefs = await SharedPreferences.getInstance();
+        // await prefs.setBool('auth', true);
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided.');
       }
     }
+
+    return user;
   }
 }
