@@ -3,6 +3,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:schedule_tracking/models/user_model.dart';
+import 'package:schedule_tracking/screens/manager/profile_screen_manager.dart';
+import 'package:schedule_tracking/screens/manager/statistics_screen_manager.dart';
+import 'package:schedule_tracking/screens/manager/work_screen_manager.dart';
 import 'package:schedule_tracking/screens/user/profile_screen_user.dart';
 import 'package:schedule_tracking/screens/user/statistics_screen_user.dart';
 import 'package:schedule_tracking/screens/user/upload_screen.dart';
@@ -63,9 +66,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 562,
                     child: TabBarView(children: [
                       StatisticsScreen(),
-                      StatisticsScreen(),
-                      WorkScreen(),
-                      ProfileScreen(),
+                      StatisticsScreenManager(),
+                      WorkScreenManager(),
+                      ProfileScreenManager(),
                       UploadScreen(),
                     ]),
                   ),
