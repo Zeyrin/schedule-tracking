@@ -48,26 +48,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   SizedBox(height: 45),
-                  TextButton(
-                    onPressed: () => showDialog<String>(
-                      context: context,
-                      builder: (BuildContext context) => AlertDialog(
-                        title: const Text('Make a request'),
-                        content: const TextField(),
-                        actions: <Widget>[
-                          TextButton(
-                            onPressed: () => Navigator.pop(context, 'Cancel'),
-                            child: const Text('Cancel'),
-                          ),
-                          TextButton(
-                            onPressed: () => Navigator.pop(context, 'OK'),
-                            child: const Text('Make request'),
-                          ),
-                        ],
-                      ),
-                    ),
-                    child: const Text('Make request'),
-                  ),
+                  // TextButton(
+                  //   onPressed: () => showDialog<String>(
+                  //     context: context,
+                  //     builder: (BuildContext context) => AlertDialog(
+                  //       title: const Text('Make a request'),
+                  //       content: const TextField(),
+                  //       actions: <Widget>[
+                  //         TextButton(
+                  //           onPressed: () => Navigator.pop(context, 'Cancel'),
+                  //           child: const Text('Cancel'),
+                  //         ),
+                  //         TextButton(
+                  //           onPressed: () => Navigator.pop(context, 'OK'),
+                  //           child: const Text('Make request'),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  //   child: const Text('Make request'),
+                  // ),
                   Text("Welcome"),
                   Text("${loggedInUser.firstName}"),
                   Text("${loggedInUser.secondName}"),

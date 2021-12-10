@@ -78,7 +78,7 @@ class _ImageUploadState extends State<ImageUpload> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Upload Image "),
+        title: const Text("Upload File"),
       ),
       body: Center(
         child: Padding(
@@ -89,7 +89,7 @@ class _ImageUploadState extends State<ImageUpload> {
                     height: 500,
                     width: double.infinity,
                     child: Column(children: [
-                      const Text("Upload Image"),
+                      const Text("Upload File"),
                       const SizedBox(
                         height: 10,
                       ),
@@ -109,23 +109,23 @@ class _ImageUploadState extends State<ImageUpload> {
                                 Expanded(
                                     child: _image == null
                                         ? const Center(
-                                            child: Text("No image selected"))
+                                            child: Text("No File selected"))
                                         : Image.file(_image!)),
                                 ElevatedButton(
                                     onPressed: () {
                                       imagePickerMethod();
                                     },
-                                    child: const Text("Select Image")),
+                                    child: const Text("Select File")),
                                 ElevatedButton(
                                     onPressed: () {
                                       if (_image != null) {
                                         uploadImage(_image!);
                                       } else {
-                                        showSnackBar("Select Image first",
+                                        showSnackBar("Select File first",
                                             Duration(milliseconds: 400));
                                       }
                                     },
-                                    child: const Text("Upload Image")),
+                                    child: const Text("Upload File")),
                               ],
                             ),
                           ),
