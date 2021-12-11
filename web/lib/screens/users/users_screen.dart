@@ -6,53 +6,110 @@ import 'package:smart_admin_dashboard/screens/dashboard/components/mini_informat
 import 'package:smart_admin_dashboard/screens/dashboard/components/recent_forums.dart';
 import 'package:smart_admin_dashboard/screens/dashboard/components/recent_users.dart';
 import 'package:smart_admin_dashboard/screens/dashboard/components/user_details_widget.dart';
+import 'package:smart_admin_dashboard/screens/home/components/side_menu.dart';
 
-class UserScreen extends StatelessWidget {
+class UserScreen extends StatefulWidget {
+  @override
+  State<UserScreen> createState() => _UserScreenState();
+}
+
+class _UserScreenState extends State<UserScreen> {
+  bool isShowDeleteAccount = false;
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: SingleChildScrollView(
-        //padding: EdgeInsets.all(defaultPadding),
-        child: Container(
-          padding: EdgeInsets.all(defaultPadding),
-          child: Column(
-            children: [
-              Header(),
-              SizedBox(height: defaultPadding),
-              MiniInformation(),
-              SizedBox(height: defaultPadding),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+    return Scaffold(
+      drawer: SideMenu(),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Align(
+              child: Row(
                 children: [
-                  Expanded(
-                    flex: 5,
-                    child: Column(
-                      children: [
-                        //MyFiels(),
-                        //SizedBox(height: defaultPadding),
-                        RecentUsers(),
-                        SizedBox(height: defaultPadding),
-                        RecentDiscussions(),
-                        if (Responsive.isMobile(context))
-                          SizedBox(height: defaultPadding),
-                        if (Responsive.isMobile(context)) UserDetailsWidget(),
-                      ],
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 20,
+                      left: 50,
                     ),
+                    child: button(
+                        label: "Add user", onTap: () {}, color: Colors.green),
                   ),
-                  if (!Responsive.isMobile(context))
-                    SizedBox(width: defaultPadding),
-                  // On Mobile means if the screen is less than 850 we dont want to show it
-                  if (!Responsive.isMobile(context))
-                    Expanded(
-                      flex: 2,
-                      child: UserDetailsWidget(),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 20,
+                      left: 50,
                     ),
+                    child: button(
+                        label: "Edit user", onTap: () {}, color: Colors.orange),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 20,
+                      left: 50,
+                    ),
+                    child: button(
+                        label: "Delete user",
+                        onTap: () {
+                          setState(() {
+                            isShowDeleteAccount = true;
+                          });
+                        },
+                        color: Colors.red),
+                  )
                 ],
-              )
-            ],
-          ),
+              ),
+            ),
+            if (isShowDeleteAccount == true) alerteDeleteAccount()
+          ],
         ),
       ),
+    );
+  }
+
+  Widget button(
+      {required String label, required Function onTap, required Color color}) {
+    return InkWell(
+      onTap: onTap(),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: color,
+        ),
+        child: Align(
+          alignment: Alignment.center,
+          child: Text(label),
+        ),
+      ),
+    );
+  }
+
+  Widget alerteDeleteAccount() {
+    return AlertDialog(
+      title: Text("Delete user Account"),
+      content: Column(
+        children: [
+          Text("User Id"),
+          TextFormField(),
+        ],
+      ),
+      actions: [
+        button(
+            label: "Validate",
+            onTap: () {
+              setState(() {
+                isShowDeleteAccount = false;
+              });
+            },
+            color: Colors.green),
+        button(
+            label: "Cancel",
+            onTap: () {
+              setState(() {
+                isShowDeleteAccount = false;
+              });
+            },
+            color: Colors.red),
+      ],
     );
   }
 }
