@@ -5,6 +5,7 @@ class UserModel {
   String? secondName;
   String? role;
   String? manager;
+  int? days;
 
   UserModel(
       {this.uid,
@@ -12,7 +13,8 @@ class UserModel {
       this.firstName,
       this.secondName,
       this.role,
-      this.manager});
+      this.manager,
+      this.days});
 
   // receiving data from server
   factory UserModel.fromMap(map) {
@@ -23,6 +25,7 @@ class UserModel {
       secondName: map['secondName'],
       role: map['role'],
       manager: map['manager'],
+      days: map['days'],
     );
   }
 
@@ -35,6 +38,7 @@ class UserModel {
       'secondName': secondName,
       'role': role,
       'manager': manager,
+      'days': days,
     };
   }
 }

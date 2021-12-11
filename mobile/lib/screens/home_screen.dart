@@ -2,9 +2,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:schedule_tracking/calendar/calendar.dart';
-import 'package:schedule_tracking/calendar/event_provider.dart';
 import 'package:schedule_tracking/models/user_model.dart';
 import 'package:schedule_tracking/screens/user/profile_screen_user.dart';
 import 'package:schedule_tracking/screens/user/statistics_screen_user.dart';
