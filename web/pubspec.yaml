@@ -36,6 +36,7 @@ dependencies:
       branch: null-safety-migration
   flutter_screenutil: ^5.0.0+2
   flutter_svg: ^0.22.0
+  fluttertoast: ^8.0.8
   google_fonts: ^2.1.0
   intl: ^0.17.0
   json_annotation: ^4.0.1

@@ -1,6 +1,6 @@
-import 'package:smart_admin_dashboard/core/constants/color_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:smart_admin_dashboard/core/constants/color_constants.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({
@@ -59,7 +59,10 @@ class SideMenu extends StatelessWidget {
             DrawerListTile(
               title: "Users",
               svgSrc: "assets/icons/menu_notification.svg",
-              press: () {},
+              press: () {
+                // Navigator.push(context,
+                //     MaterialPageRoute(builder: (context) => UserScreen()));
+              },
             ),
             DrawerListTile(
               title: "Tools",

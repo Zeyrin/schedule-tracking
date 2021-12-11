@@ -1,12 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:smart_admin_dashboard/core/constants/color_constants.dart';
 import 'package:smart_admin_dashboard/responsive.dart';
-
 import 'package:smart_admin_dashboard/screens/dashboard/components/mini_information_card.dart';
-
 import 'package:smart_admin_dashboard/screens/dashboard/components/recent_forums.dart';
 import 'package:smart_admin_dashboard/screens/dashboard/components/recent_users.dart';
 import 'package:smart_admin_dashboard/screens/dashboard/components/user_details_widget.dart';
-import 'package:flutter/material.dart';
 
 import 'components/header.dart';
 
