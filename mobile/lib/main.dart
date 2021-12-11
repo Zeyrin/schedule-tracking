@@ -4,14 +4,7 @@ import 'package:schedule_tracking/screens/login_screen.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: FirebaseOptions(
-      apiKey: "AIzaSyCVUog-NkCCxB2reaEvWYZp2Wqupvacc9I",
-      appId: "1:266255154147:android:cdc34002616c0d7f77bed6",
-      messagingSenderId: "schedule-d1cae",
-      projectId: "schedule-d1cae",
-    ),
-  );
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
