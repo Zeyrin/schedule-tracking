@@ -49,7 +49,7 @@ class _ProfileScreenManagerState extends State<ProfileScreenManager> {
               width: 150,
             ),
             SimpleContainer(
-              child: Text("Username: Benjamin"),
+              child: Text("Manager: " + loggedInUser.manager.toString()),
               height: 70,
               width: 150,
             ),

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:schedule_tracking/models/user_model.dart';
 import 'package:schedule_tracking/screens/login_screen.dart';
+import 'package:schedule_tracking/widget/container_widget.dart';
 
 class ProfileScreen extends StatefulWidget {
   ProfileScreen({
@@ -71,6 +72,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Text("Welcome"),
                   Text("${loggedInUser.firstName}"),
                   Text("${loggedInUser.secondName}"),
+                  SimpleContainer(
+                    child:
+                        Text("Off Days left : " + loggedInUser.days.toString()),
+                    height: 70,
+                    width: 180,
+                  ),
                   ActionChip(
                       label: Text("Logout"),
                       onPressed: () {
