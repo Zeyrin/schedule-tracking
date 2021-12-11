@@ -290,6 +290,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     userModel.uid = user.uid;
     userModel.firstName = firstNameEditingController.text;
     userModel.secondName = secondNameEditingController.text;
+    userModel.days = 31;
+    userModel.manager = "Benjamin";
+    userModel.role = "User";
 
     await firebaseFirestore
         .collection("users")
