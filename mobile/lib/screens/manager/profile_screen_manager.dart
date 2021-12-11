@@ -53,6 +53,12 @@ class _ProfileScreenManagerState extends State<ProfileScreenManager> {
               height: 70,
               width: 150,
             ),
+            SimpleContainer(
+              child: Text(
+                  "Managed Users: " + loggedInUser.managedUsers.toString()),
+              height: 70,
+              width: 150,
+            ),
             GestureDetector(
               onTap: () {
                 //do action
