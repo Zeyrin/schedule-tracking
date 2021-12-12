@@ -18,6 +18,32 @@ class _UserScreenState extends State<UserScreen> {
   var isShowModifyAccount = false;
   var isShowCreateAccount = false;
 
+  List<String> userNames = [
+    "Benjamin",
+    "Gianni",
+    "Maceo",
+    "Olivier",
+  ];
+  List<String> userIds = [
+    "9Y8Y87988",
+    "3457988988",
+    "086R4567866",
+    "9853567964",
+  ];
+
+  List<String> userEmails = [
+    "benjamin@flutter3.com",
+    "gianni@flutter3.com",
+    "maceo@flutter3.com",
+    "Olivier@flutter3.com",
+  ];
+  List<String> userRoles = [
+    "user",
+    "user",
+    "admin",
+    "manager",
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -88,9 +114,66 @@ class _UserScreenState extends State<UserScreen> {
             if (isShowDeleteAccount == true) alerteDeleteAccount(),
             if (isShowCreateAccount == true) alerteCreateAccount(),
             if (isShowModifyAccount == true) alerteModifyAccount(),
+            Expanded(
+              child: Container(
+                child: ListView.builder(
+                  physics: BouncingScrollPhysics(),
+                  padding: EdgeInsets.symmetric(
+                    vertical: 8,
+                  ),
+                  itemCount: userNames.length,
+                  itemBuilder: (BuildContext context, int userIndex) {
+                    final userName = userNames[userIndex];
+                    final userId = userIds[userIndex];
+                    final userRole = userRoles[userIndex];
+                    final userEmail = userEmails[userIndex];
+
+                    return userListItem(
+                        name: userName,
+                        role: userRole,
+                        email: userEmail,
+                        id: userId);
+                  },
+                ),
+              ),
+            ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget userListItem(
+      {required String name,
+      required String role,
+      required String email,
+      required String id}) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          name,
+          style: TextStyle(color: Colors.white),
+        ),
+        Text(
+          role,
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        Text(
+          id,
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        Text(
+          email,
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+      ],
     );
   }
 
