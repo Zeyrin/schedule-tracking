@@ -1,11 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:smart_admin_dashboard/core/constants/color_constants.dart';
-import 'package:smart_admin_dashboard/responsive.dart';
-import 'package:smart_admin_dashboard/screens/dashboard/components/header.dart';
-import 'package:smart_admin_dashboard/screens/dashboard/components/mini_information_card.dart';
-import 'package:smart_admin_dashboard/screens/dashboard/components/recent_forums.dart';
-import 'package:smart_admin_dashboard/screens/dashboard/components/recent_users.dart';
-import 'package:smart_admin_dashboard/screens/dashboard/components/user_details_widget.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:smart_admin_dashboard/models/user_model.dart';
 import 'package:smart_admin_dashboard/screens/home/components/side_menu.dart';
 
 class UserScreen extends StatefulWidget {
@@ -14,6 +12,19 @@ class UserScreen extends StatefulWidget {
 }
 
 class _UserScreenState extends State<UserScreen> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController userIdController = TextEditingController();
+  final TextEditingController roleController = TextEditingController();
+
+  final _auth = FirebaseAuth.instance;
+  String? errorMessage;
+  String? uid;
+  String? userEmail;
+
+  final _formKey = GlobalKey<FormState>();
+
   var isShowDeleteAccount = false;
   var isShowModifyAccount = false;
   var isShowCreateAccount = false;
@@ -69,11 +80,13 @@ class _UserScreenState extends State<UserScreen> {
                     ),
                     child: TextButton(
                       onPressed: () {
-                        setState(() {
-                          isShowDeleteAccount = false;
-                          isShowCreateAccount = true;
-                          isShowModifyAccount = false;
-                        });
+                        setState(
+                          () {
+                            isShowDeleteAccount = false;
+                            isShowCreateAccount = true;
+                            isShowModifyAccount = false;
+                          },
+                        );
                       },
                       child: Text("Create user"),
                     ),
@@ -273,20 +286,75 @@ class _UserScreenState extends State<UserScreen> {
       content: Column(
         children: [
           TextFormField(
-            decoration: InputDecoration(hintText: "User name"),
+            controller: firstNameController,
+            decoration: InputDecoration(
+              hintText: "User name",
+            ),
+            validator: (value) {
+              RegExp regex = new RegExp(r'^.{3,}$');
+              if (value!.isEmpty) {
+                return ("First Name cannot be Empty");
+              }
+              if (!regex.hasMatch(value)) {
+                return ("Enter Valid name(Min. 3 Character)");
+              }
+              return null;
+            },
+            onSaved: (value) {
+              firstNameController.text = value!;
+            },
           ),
           SizedBox(
             height: 20,
           ),
-          TextFormField(decoration: InputDecoration(hintText: "Email")),
+          TextFormField(
+            controller: emailController,
+            decoration: InputDecoration(hintText: "Email"),
+            validator: (value) {
+              if (value!.isEmpty) {
+                return ("Please Enter Your Email");
+              }
+              // reg expression for email validation
+              if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                  .hasMatch(value)) {
+                return ("Please Enter a valid email");
+              }
+              return null;
+            },
+            onSaved: (value) {
+              emailController.text = value!;
+            },
+          ),
           SizedBox(
             height: 20,
           ),
-          TextFormField(decoration: InputDecoration(hintText: "Password")),
+          TextFormField(
+            controller: passwordController,
+            decoration: InputDecoration(hintText: "Password"),
+            obscureText: true,
+            validator: (value) {
+              RegExp regex = new RegExp(r'^.{6,}$');
+              if (value!.isEmpty) {
+                return ("Password is required for login");
+              }
+              if (!regex.hasMatch(value)) {
+                return ("Enter Valid Password(Min. 6 Character)");
+              }
+            },
+            onSaved: (value) {
+              passwordController.text = value!;
+            },
+          ),
           SizedBox(
             height: 20,
           ),
-          TextFormField(decoration: InputDecoration(hintText: "User role")),
+          TextFormField(
+            controller: roleController,
+            decoration: InputDecoration(hintText: "User role"),
+            onSaved: (value) {
+              roleController.text = value!;
+            },
+          ),
           SizedBox(
             height: 20,
           ),
@@ -296,6 +364,7 @@ class _UserScreenState extends State<UserScreen> {
         button(
             label: "Validate",
             onTap: () {
+              signUp(emailController.text, passwordController.text);
               setState(() {
                 isShowCreateAccount = false;
               });
@@ -314,5 +383,91 @@ class _UserScreenState extends State<UserScreen> {
             color: Colors.red),
       ],
     );
+  }
+
+  Future<User?> registerWithEmailPassword(String email, String password) async {
+    // Initialize Firebase
+    await Firebase.initializeApp();
+    User? user;
+
+    try {
+      UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      user = userCredential.user;
+
+      if (user != null) {
+        uid = user.uid;
+        userEmail = user.email;
+      }
+    } catch (e) {
+      print(e);
+    }
+
+    return user;
+  }
+
+  postDetailsToFirestore() async {
+    // calling our firestore
+    // calling our user model
+    // sedning these values
+
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    User? user = _auth.currentUser;
+
+    UserModel userModel = UserModel();
+
+    // writing all the values
+    userModel.email = user!.email;
+    userModel.uid = user.uid;
+    userModel.firstName = firstNameController.text;
+    userModel.days = 31;
+    userModel.manager = "Benjamin";
+    userModel.role = roleController.text;
+
+    await firebaseFirestore
+        .collection("users")
+        .doc(user.uid)
+        .set(userModel.toMap());
+    Fluttertoast.showToast(msg: "Account created successfully :) ");
+  }
+
+  void signUp(String email, String password) async {
+    // try {
+    await _auth
+        .createUserWithEmailAndPassword(email: email, password: password)
+        .then((value) => {postDetailsToFirestore()})
+        .catchError((e) {
+      // Fluttertoast.showToast(msg: e!.message);
+    });
+    //   // } on FirebaseAuthException catch (error) {
+    //   //   switch (error.code) {
+    //   //     case "invalid-email":
+    //   //       errorMessage = "Your email address appears to be malformed.";
+    //   //       break;
+    //   //     case "wrong-password":
+    //   //       errorMessage = "Your password is wrong.";
+    //   //       break;
+    //   //     case "user-not-found":
+    //   //       errorMessage = "User with this email doesn't exist.";
+    //   //       break;
+    //   //     case "user-disabled":
+    //   //       errorMessage = "User with this email has been disabled.";
+    //   //       break;
+    //   //     case "too-many-requests":
+    //   //       errorMessage = "Too many requests";
+    //   //       break;
+    //   //     case "operation-not-allowed":
+    //   //       errorMessage = "Signing in with Email and Password is not enabled.";
+    //   //       break;
+    //   //     default:
+    //   //       errorMessage = "An undefined Error happened.";
+    //   //   }
+    //   //   Fluttertoast.showToast(msg: errorMessage!);
+    //   //   print(error.code);
+    //   // }
   }
 }
