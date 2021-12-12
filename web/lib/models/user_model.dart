@@ -6,7 +6,7 @@ class UserModel {
   String? role;
   String? manager;
   String? managedUsers;
-  int? days = 31;
+  String? days = "31";
 
   UserModel(
       {this.uid,

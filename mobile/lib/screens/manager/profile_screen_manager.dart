@@ -45,34 +45,35 @@ class _ProfileScreenManagerState extends State<ProfileScreenManager> {
                   style: TextStyle(fontSize: 30),
                 )),
             SimpleContainer(
-              child: Text("Username: " + loggedInUser.firstName.toString()),
+              child: Text("Username: " + loggedInUser.firstName.toString(),
+                  style: TextStyle(
+                    color: Colors.white,
+                  )),
               height: 70,
               width: 150,
             ),
             SimpleContainer(
-              child: Text("Manager: " + loggedInUser.manager.toString()),
+              child: Text("Manager: " + loggedInUser.manager.toString(),
+                  style: TextStyle(
+                    color: Colors.white,
+                  )),
               height: 70,
               width: 150,
             ),
             SimpleContainer(
-              child: Text(
-                  "Managed Users: " + loggedInUser.managedUsers.toString()),
+              child:
+                  Text("Managed Users: " + loggedInUser.managedUsers.toString(),
+                      style: TextStyle(
+                        color: Colors.white,
+                      )),
               height: 70,
               width: 150,
             ),
-            GestureDetector(
-              onTap: () {
-                //do action
-                print("j'ai cliqué");
-              },
-              child: SimpleContainer(
-                child: Text("clique dessus "),
-                height: 70,
-                width: 150,
-              ),
-            ),
             SimpleContainer(
-              child: Text("Off Days left : " + loggedInUser.days.toString()),
+              child: Text("Off Days left : " + loggedInUser.days.toString(),
+                  style: TextStyle(
+                    color: Colors.white,
+                  )),
               height: 70,
               width: 180,
             ),

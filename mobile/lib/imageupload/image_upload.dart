@@ -51,7 +51,7 @@ class _ImageUploadState extends State<ImageUpload> {
         .doc(widget.userId)
         .collection("images")
         .add({'downloadURL': downloadURL}).whenComplete(
-            () => showSnackBar("Image Uploaded", Duration(seconds: 2)));
+            () => showSnackBar("File Uploaded", Duration(seconds: 2)));
   }
 
   // Future uploadRequest(String _request) async {

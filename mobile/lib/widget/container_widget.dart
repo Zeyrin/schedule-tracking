@@ -19,7 +19,7 @@ class SimpleContainer extends StatelessWidget {
         height: height,
         width: width,
         decoration: BoxDecoration(
-          color: Colors.teal,
+          color: Colors.indigoAccent,
           borderRadius: BorderRadius.all(Radius.circular(20)),
         ),
         child: Align(alignment: Alignment.center, child: child),
