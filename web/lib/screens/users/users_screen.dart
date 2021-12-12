@@ -14,7 +14,17 @@ class UserScreen extends StatefulWidget {
 }
 
 class _UserScreenState extends State<UserScreen> {
-  bool isShowDeleteAccount = false;
+  var isShowDeleteAccount = false;
+  var isShowModifyAccount = false;
+  var isShowCreateAccount = false;
+
+  @override
+  void initState() {
+    super.initState();
+    isShowDeleteAccount = false;
+    isShowModifyAccount = false;
+    isShowCreateAccount = false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +42,13 @@ class _UserScreenState extends State<UserScreen> {
                       left: 50,
                     ),
                     child: button(
-                        label: "Add user", onTap: () {}, color: Colors.green),
+                        label: "Add user",
+                        onTap: () {
+                          isShowDeleteAccount = false;
+                          isShowCreateAccount = true;
+                          isShowModifyAccount = false;
+                        },
+                        color: Colors.green),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(
@@ -40,7 +56,13 @@ class _UserScreenState extends State<UserScreen> {
                       left: 50,
                     ),
                     child: button(
-                        label: "Edit user", onTap: () {}, color: Colors.orange),
+                        label: "Edit user",
+                        onTap: () {
+                          isShowDeleteAccount = false;
+                          isShowCreateAccount = false;
+                          isShowModifyAccount = true;
+                        },
+                        color: Colors.orange),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(
@@ -51,7 +73,7 @@ class _UserScreenState extends State<UserScreen> {
                         label: "Delete user",
                         onTap: () {
                           setState(() {
-                            isShowDeleteAccount = true;
+                            print("deletetee");
                           });
                         },
                         color: Colors.red),
@@ -59,7 +81,9 @@ class _UserScreenState extends State<UserScreen> {
                 ],
               ),
             ),
-            if (isShowDeleteAccount == true) alerteDeleteAccount()
+            //if (isShowDeleteAccount == true) alerteDeleteAccount(),
+            //if (isShowCreateAccount == true) alerteCreateAccount(),
+            //if (isShowModifyAccount == true) alerteModifyAccount(),
           ],
         ),
       ),
@@ -67,9 +91,11 @@ class _UserScreenState extends State<UserScreen> {
   }
 
   Widget button(
-      {required String label, required Function onTap, required Color color}) {
-    return InkWell(
-      onTap: onTap(),
+      {required String label,
+      required Function() onTap,
+      required Color color}) {
+    return GestureDetector(
+      onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
@@ -110,6 +136,56 @@ class _UserScreenState extends State<UserScreen> {
             },
             color: Colors.red),
       ],
+    );
+  }
+
+  Widget alerteModifyAccount() {
+    return AlertDialog(
+      title: Text("Modify user account"),
+      content: Column(
+        children: [
+          Text("User Id"),
+          TextFormField(),
+          SizedBox(
+            width: 20,
+          ),
+          Text("User role"),
+          TextFormField(),
+          SizedBox(
+            width: 20,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget alerteCreateAccount() {
+    return AlertDialog(
+      title: Text("Create account"),
+      content: Column(
+        children: [
+          Text("User name"),
+          TextFormField(),
+          SizedBox(
+            width: 20,
+          ),
+          Text("Email"),
+          TextFormField(),
+          SizedBox(
+            width: 20,
+          ),
+          Text("Password"),
+          TextFormField(),
+          SizedBox(
+            width: 20,
+          ),
+          Text("User role"),
+          TextFormField(),
+          SizedBox(
+            width: 20,
+          ),
+        ],
+      ),
     );
   }
 }
