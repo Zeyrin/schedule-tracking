@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:schedule_tracking/models/user_model.dart';
+import 'package:schedule_tracking/screens/login_screen.dart';
 import 'package:schedule_tracking/widget/container_widget.dart';
 
 class ProfileScreenManager extends StatefulWidget {
@@ -75,9 +76,20 @@ class _ProfileScreenManagerState extends State<ProfileScreenManager> {
               height: 70,
               width: 180,
             ),
+            ActionChip(
+                label: Text("Logout"),
+                onPressed: () {
+                  logout(context);
+                }),
           ],
         ),
       ),
     );
+  }
+
+  Future<void> logout(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => LoginScreen()));
   }
 }

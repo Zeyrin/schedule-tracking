@@ -1,11 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:schedule_tracking/models/user_model.dart';
-import 'package:schedule_tracking/screens/manager/home_screen_manager.dart';
 import 'package:schedule_tracking/screens/registration_screen.dart';
 import 'package:schedule_tracking/screens/user/home_screen_user.dart';
 
@@ -33,20 +31,6 @@ class _LoginScreenState extends State<LoginScreen> {
   String? errorMessage;
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    FirebaseFirestore.instance
-        .collection("users")
-        .doc(user!.uid)
-        .get()
-        .then((value) {
-      this.loggedInUser = UserModel.fromMap(value.data());
-
-      setState(() {});
-    });
-  }
-
   Widget build(BuildContext context) {
     //email field
 
@@ -209,7 +193,7 @@ class _LoginScreenState extends State<LoginScreen> {
             .then((uid) => {
                   Fluttertoast.showToast(msg: "Login Successful"),
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => checkRole(loggedInUser))),
+                      builder: (context) => HomeScreenUser())),
                 });
       } on FirebaseAuthException catch (error) {
         switch (error.code) {
@@ -238,19 +222,6 @@ class _LoginScreenState extends State<LoginScreen> {
         Fluttertoast.showToast(msg: errorMessage!);
         print(error.code);
       }
-    }
-  }
-
-  checkRole(UserModel loggedInUser) {
-    if (loggedInUser.role.toString() == null) {
-      return Center(
-        child: Text('no data set in the userId document in firestore'),
-      );
-    }
-    if (loggedInUser.role.toString() == 'manager') {
-      return HomeScreenManager();
-    } else {
-      return HomeScreenUser();
     }
   }
 }

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:schedule_tracking/calendar/calendar.dart';
 import 'package:schedule_tracking/models/user_model.dart';
 import 'package:schedule_tracking/screens/manager/profile_screen_manager.dart';
 import 'package:schedule_tracking/screens/manager/statistics_screen_manager.dart';
@@ -75,7 +76,7 @@ class _HomeScreenManagerState extends State<HomeScreenManager> {
                   SizedBox(
                     height: 562,
                     child: TabBarView(children: [
-                      StatisticsScreenManager(),
+                      CalendarPage(),
                       StatisticsScreenManager(),
                       WorkScreenManager(),
                       ProfileScreenManager(),
