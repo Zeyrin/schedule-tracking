@@ -3,8 +3,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:schedule_tracking/screens/home_screen.dart';
+import 'package:schedule_tracking/models/user_model.dart';
 import 'package:schedule_tracking/screens/registration_screen.dart';
+import 'package:schedule_tracking/screens/user/home_screen_user.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key? key}) : super(key: key);
@@ -15,7 +16,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   //form key
-
+  User? user = FirebaseAuth.instance.currentUser;
+  UserModel loggedInUser = UserModel();
   final _formKey = GlobalKey<FormState>();
 
   // editing controller
@@ -190,8 +192,8 @@ class _LoginScreenState extends State<LoginScreen> {
             .signInWithEmailAndPassword(email: email, password: password)
             .then((uid) => {
                   Fluttertoast.showToast(msg: "Login Successful"),
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => HomeScreen())),
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => HomeScreenUser())),
                 });
       } on FirebaseAuthException catch (error) {
         switch (error.code) {

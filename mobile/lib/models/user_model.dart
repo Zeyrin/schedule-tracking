@@ -5,7 +5,8 @@ class UserModel {
   String? secondName;
   String? role;
   String? manager;
-  int? days;
+  String? managedUsers;
+  int? days = 31;
 
   UserModel(
       {this.uid,
@@ -14,19 +15,20 @@ class UserModel {
       this.secondName,
       this.role,
       this.manager,
-      this.days});
+      this.days,
+      this.managedUsers});
 
   // receiving data from server
   factory UserModel.fromMap(map) {
     return UserModel(
-      uid: map['uid'],
-      email: map['email'],
-      firstName: map['firstName'],
-      secondName: map['secondName'],
-      role: map['role'],
-      manager: map['manager'],
-      days: map['days'],
-    );
+        uid: map['uid'],
+        email: map['email'],
+        firstName: map['firstName'],
+        secondName: map['secondName'],
+        role: map['role'],
+        manager: map['manager'],
+        days: map['days'],
+        managedUsers: map['managedUsers']);
   }
 
   // sending data to our server
@@ -39,6 +41,7 @@ class UserModel {
       'role': role,
       'manager': manager,
       'days': days,
+      'managedUsers': managedUsers,
     };
   }
 }
