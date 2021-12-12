@@ -72,11 +72,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   //   child: const Text('Make request'),
                   // ),
                   Text("Welcome"),
-                  Text("${loggedInUser.firstName}"),
-                  Text("${loggedInUser.secondName}"),
+
                   SimpleContainer(
                     child:
-                        Text("Off Days left : " + loggedInUser.days.toString()),
+                        Text("Username: " + loggedInUser.firstName.toString(),
+                            style: TextStyle(
+                              color: Colors.white,
+                            )),
+                    height: 70,
+                    width: 150,
+                  ),
+                  SimpleContainer(
+                    child: Text("Manager: " + loggedInUser.manager.toString(),
+                        style: TextStyle(
+                          color: Colors.white,
+                        )),
+                    height: 70,
+                    width: 150,
+                  ),
+                  SimpleContainer(
+                    child: Text(
+                        "Managed Users: " +
+                            loggedInUser.managedUsers.toString(),
+                        style: TextStyle(
+                          color: Colors.white,
+                        )),
+                    height: 70,
+                    width: 150,
+                  ),
+                  SimpleContainer(
+                    child:
+                        Text("Off Days left : " + loggedInUser.days.toString(),
+                            style: TextStyle(
+                              color: Colors.white,
+                            )),
                     height: 70,
                     width: 180,
                   ),

@@ -17,6 +17,8 @@ class _UserScreenState extends State<UserScreen> {
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController userIdController = TextEditingController();
   final TextEditingController roleController = TextEditingController();
+  final TextEditingController managerController = TextEditingController();
+  final TextEditingController daysController = TextEditingController();
 
   final _auth = FirebaseAuth.instance;
   String? errorMessage;
@@ -87,6 +89,13 @@ class _UserScreenState extends State<UserScreen> {
                             isShowModifyAccount = false;
                           },
                         );
+                        emailController.text = "";
+                        passwordController.text = "";
+                        userIdController.text = "";
+                        firstNameController.text = "";
+                        daysController.text = "";
+                        managerController.text = "";
+                        roleController.text = "";
                       },
                       child: Text("Create user"),
                     ),
@@ -103,6 +112,13 @@ class _UserScreenState extends State<UserScreen> {
                             isShowCreateAccount = false;
                             isShowModifyAccount = true;
                           });
+                          emailController.text = "";
+                          passwordController.text = "";
+                          userIdController.text = "";
+                          firstNameController.text = "";
+                          daysController.text = "";
+                          managerController.text = "";
+                          roleController.text = "";
                         },
                         child: Text("Modify user"),
                       )),
@@ -118,6 +134,13 @@ class _UserScreenState extends State<UserScreen> {
                             isShowCreateAccount = false;
                             isShowModifyAccount = false;
                           });
+                          emailController.text = "";
+                          passwordController.text = "";
+                          userIdController.text = "";
+                          firstNameController.text = "";
+                          daysController.text = "";
+                          managerController.text = "";
+                          roleController.text = "";
                         },
                         child: Text("Delete user"),
                       ))
@@ -214,7 +237,12 @@ class _UserScreenState extends State<UserScreen> {
       title: Text("Delete user Account"),
       content: Column(
         children: [
-          TextFormField(decoration: InputDecoration(hintText: "User Id")),
+          TextFormField(
+              controller: userIdController,
+              onSaved: (value) {
+                userIdController.text = value!;
+              },
+              decoration: InputDecoration(hintText: "User Id")),
         ],
       ),
       actions: [
@@ -224,6 +252,7 @@ class _UserScreenState extends State<UserScreen> {
               setState(() {
                 isShowDeleteAccount = false;
               });
+              deleteUid(userIdController.text);
             },
             color: Colors.green),
         SizedBox(
@@ -246,11 +275,60 @@ class _UserScreenState extends State<UserScreen> {
       title: Text("Modify user account"),
       content: Column(
         children: [
-          TextFormField(decoration: InputDecoration(hintText: "User Id")),
+          TextFormField(
+              controller: userIdController,
+              onSaved: (value) {
+                userIdController.text = value!;
+              },
+              decoration: InputDecoration(hintText: "User Id")),
+          TextFormField(
+            controller: emailController,
+            decoration: InputDecoration(hintText: "Email"),
+            validator: (value) {
+              if (value!.isEmpty) {
+                return ("Please Enter Your Email");
+              }
+              // reg expression for email validation
+              if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                  .hasMatch(value)) {
+                return ("Please Enter a valid email");
+              }
+              return null;
+            },
+            onSaved: (value) {
+              emailController.text = value!;
+            },
+          ),
           SizedBox(
             height: 20,
           ),
-          TextFormField(decoration: InputDecoration(hintText: "User role")),
+          TextFormField(
+            controller: firstNameController,
+            decoration: InputDecoration(hintText: "First Name"),
+            onSaved: (value) {
+              firstNameController.text = value!;
+            },
+          ),
+          TextFormField(
+            controller: daysController,
+            decoration: InputDecoration(hintText: "Days off"),
+            onSaved: (value) {
+              daysController.text = value!;
+            },
+          ),
+          TextFormField(
+            controller: managerController,
+            decoration: InputDecoration(hintText: "Manger Name"),
+            onSaved: (value) {
+              managerController.text = value!;
+            },
+          ),
+          TextFormField(
+              controller: roleController,
+              onSaved: (value) {
+                roleController.text = value!;
+              },
+              decoration: InputDecoration(hintText: "User role")),
           SizedBox(
             height: 20,
           ),
@@ -263,6 +341,7 @@ class _UserScreenState extends State<UserScreen> {
               setState(() {
                 isShowModifyAccount = false;
               });
+              postDetailsUid(userIdController.text);
             },
             color: Colors.green),
         SizedBox(
@@ -368,6 +447,10 @@ class _UserScreenState extends State<UserScreen> {
               setState(() {
                 isShowCreateAccount = false;
               });
+              firstNameController.text = "";
+              emailController.text = "";
+              passwordController.text = "";
+              // roleController.text = "";
             },
             color: Colors.green),
         SizedBox(
@@ -413,7 +496,7 @@ class _UserScreenState extends State<UserScreen> {
   postDetailsToFirestore() async {
     // calling our firestore
     // calling our user model
-    // sedning these values
+    // sending these values
 
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     User? user = _auth.currentUser;
@@ -424,7 +507,7 @@ class _UserScreenState extends State<UserScreen> {
     userModel.email = user!.email;
     userModel.uid = user.uid;
     userModel.firstName = firstNameController.text;
-    userModel.days = 31;
+    userModel.days = "31";
     userModel.manager = "Benjamin";
     userModel.role = roleController.text;
 
@@ -435,13 +518,57 @@ class _UserScreenState extends State<UserScreen> {
     Fluttertoast.showToast(msg: "Account created successfully :) ");
   }
 
+  postDetailsUid(String Uid) async {
+    // calling our firestore
+    // calling our user model
+    // sending these values
+
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    User? user = _auth.currentUser;
+
+    UserModel userModel = UserModel();
+
+    // writing all the values
+    userModel.email = emailController.text;
+    userModel.uid = userIdController.text;
+    userModel.firstName = firstNameController.text;
+    userModel.days = daysController.text;
+    userModel.manager = managerController.text;
+    userModel.role = roleController.text;
+
+    await firebaseFirestore.collection("users").doc(Uid).set(userModel.toMap());
+    Fluttertoast.showToast(msg: "Account created successfully :) ");
+  }
+
+  deleteUid(String Uid) async {
+    // calling our firestore
+    // calling our user model
+    // sending these values
+
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    User? user = _auth.currentUser;
+
+    UserModel userModel = UserModel();
+
+    // // writing all the values
+    // userModel.email = emailController.text;
+    // userModel.uid = userIdController.text;
+    // userModel.firstName = firstNameController.text;
+    // userModel.days = daysController.text;
+    // userModel.manager = managerController.text;
+    // userModel.role = roleController.text;
+
+    await firebaseFirestore.collection("users").doc(Uid).delete();
+    Fluttertoast.showToast(msg: "Account created successfully :) ");
+  }
+
   void signUp(String email, String password) async {
     // try {
     await _auth
         .createUserWithEmailAndPassword(email: email, password: password)
         .then((value) => {postDetailsToFirestore()})
         .catchError((e) {
-      // Fluttertoast.showToast(msg: e!.message);
+      Fluttertoast.showToast(msg: e!.message);
     });
     //   // } on FirebaseAuthException catch (error) {
     //   //   switch (error.code) {
@@ -469,5 +596,15 @@ class _UserScreenState extends State<UserScreen> {
     //   //   Fluttertoast.showToast(msg: errorMessage!);
     //   //   print(error.code);
     //   // }
+  }
+
+  void signIn(String email, String password) async {
+    // try {
+    await _auth
+        .signInWithEmailAndPassword(email: email, password: password)
+        .then((value) => {postDetailsToFirestore()})
+        .catchError((e) {
+      Fluttertoast.showToast(msg: e!.message);
+    });
   }
 }
