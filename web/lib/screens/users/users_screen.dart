@@ -41,49 +41,53 @@ class _UserScreenState extends State<UserScreen> {
                       top: 20,
                       left: 50,
                     ),
-                    child: button(
-                        label: "Add user",
-                        onTap: () {
+                    child: TextButton(
+                      onPressed: () {
+                        setState(() {
                           isShowDeleteAccount = false;
                           isShowCreateAccount = true;
                           isShowModifyAccount = false;
-                        },
-                        color: Colors.green),
+                        });
+                      },
+                      child: Text("Create user"),
+                    ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(
-                      top: 20,
-                      left: 50,
-                    ),
-                    child: button(
-                        label: "Edit user",
-                        onTap: () {
-                          isShowDeleteAccount = false;
-                          isShowCreateAccount = false;
-                          isShowModifyAccount = true;
-                        },
-                        color: Colors.orange),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      top: 20,
-                      left: 50,
-                    ),
-                    child: button(
-                        label: "Delete user",
-                        onTap: () {
+                      padding: const EdgeInsets.only(
+                        top: 20,
+                        left: 50,
+                      ),
+                      child: TextButton(
+                        onPressed: () {
                           setState(() {
-                            print("deletetee");
+                            isShowDeleteAccount = false;
+                            isShowCreateAccount = false;
+                            isShowModifyAccount = true;
                           });
                         },
-                        color: Colors.red),
-                  )
+                        child: Text("Modify user"),
+                      )),
+                  Padding(
+                      padding: const EdgeInsets.only(
+                        top: 20,
+                        left: 50,
+                      ),
+                      child: TextButton(
+                        onPressed: () {
+                          setState(() {
+                            isShowDeleteAccount = true;
+                            isShowCreateAccount = false;
+                            isShowModifyAccount = false;
+                          });
+                        },
+                        child: Text("Delete user"),
+                      ))
                 ],
               ),
             ),
-            //if (isShowDeleteAccount == true) alerteDeleteAccount(),
-            //if (isShowCreateAccount == true) alerteCreateAccount(),
-            //if (isShowModifyAccount == true) alerteModifyAccount(),
+            if (isShowDeleteAccount == true) alerteDeleteAccount(),
+            if (isShowCreateAccount == true) alerteCreateAccount(),
+            if (isShowModifyAccount == true) alerteModifyAccount(),
           ],
         ),
       ),
@@ -92,7 +96,7 @@ class _UserScreenState extends State<UserScreen> {
 
   Widget button(
       {required String label,
-      required Function() onTap,
+      required void Function() onTap,
       required Color color}) {
     return GestureDetector(
       onTap: onTap,
@@ -114,8 +118,7 @@ class _UserScreenState extends State<UserScreen> {
       title: Text("Delete user Account"),
       content: Column(
         children: [
-          Text("User Id"),
-          TextFormField(),
+          TextFormField(decoration: InputDecoration(hintText: "User Id")),
         ],
       ),
       actions: [
@@ -127,6 +130,9 @@ class _UserScreenState extends State<UserScreen> {
               });
             },
             color: Colors.green),
+        SizedBox(
+          height: 5,
+        ),
         button(
             label: "Cancel",
             onTap: () {
@@ -144,18 +150,37 @@ class _UserScreenState extends State<UserScreen> {
       title: Text("Modify user account"),
       content: Column(
         children: [
-          Text("User Id"),
-          TextFormField(),
+          TextFormField(decoration: InputDecoration(hintText: "User Id")),
           SizedBox(
-            width: 20,
+            height: 20,
           ),
-          Text("User role"),
-          TextFormField(),
+          TextFormField(decoration: InputDecoration(hintText: "User role")),
           SizedBox(
-            width: 20,
+            height: 20,
           ),
         ],
       ),
+      actions: [
+        button(
+            label: "Validate",
+            onTap: () {
+              setState(() {
+                isShowModifyAccount = false;
+              });
+            },
+            color: Colors.green),
+        SizedBox(
+          height: 5,
+        ),
+        button(
+            label: "Cancel",
+            onTap: () {
+              setState(() {
+                isShowModifyAccount = false;
+              });
+            },
+            color: Colors.red),
+      ],
     );
   }
 
@@ -164,28 +189,47 @@ class _UserScreenState extends State<UserScreen> {
       title: Text("Create account"),
       content: Column(
         children: [
-          Text("User name"),
-          TextFormField(),
-          SizedBox(
-            width: 20,
+          TextFormField(
+            decoration: InputDecoration(hintText: "User name"),
           ),
-          Text("Email"),
-          TextFormField(),
           SizedBox(
-            width: 20,
+            height: 20,
           ),
-          Text("Password"),
-          TextFormField(),
+          TextFormField(decoration: InputDecoration(hintText: "Email")),
           SizedBox(
-            width: 20,
+            height: 20,
           ),
-          Text("User role"),
-          TextFormField(),
+          TextFormField(decoration: InputDecoration(hintText: "Password")),
           SizedBox(
-            width: 20,
+            height: 20,
+          ),
+          TextFormField(decoration: InputDecoration(hintText: "User role")),
+          SizedBox(
+            height: 20,
           ),
         ],
       ),
+      actions: [
+        button(
+            label: "Validate",
+            onTap: () {
+              setState(() {
+                isShowCreateAccount = false;
+              });
+            },
+            color: Colors.green),
+        SizedBox(
+          height: 5,
+        ),
+        button(
+            label: "Cancel",
+            onTap: () {
+              setState(() {
+                isShowCreateAccount = false;
+              });
+            },
+            color: Colors.red),
+      ],
     );
   }
 }
