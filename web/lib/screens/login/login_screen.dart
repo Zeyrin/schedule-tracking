@@ -569,8 +569,8 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
               type: ButtonType.PRIMARY,
               text: "Sign In",
               onPressed: () {
-                //emailController.text, passwordController.text
-                signInWithEmailPassword("lol.lol@lol.com", "123456");
+                signInWithEmailPassword(
+                    emailController.text, passwordController.text);
               },
             ),
             SizedBox(height: 24.0),

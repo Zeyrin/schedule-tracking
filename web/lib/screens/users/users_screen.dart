@@ -264,6 +264,7 @@ class _UserScreenState extends State<UserScreen> {
               setState(() {
                 isShowDeleteAccount = false;
               });
+              getDetailsUid();
             },
             color: Colors.red),
       ],
@@ -540,6 +541,34 @@ class _UserScreenState extends State<UserScreen> {
     Fluttertoast.showToast(msg: "Account created successfully :) ");
   }
 
+  Future<List<UserModel>> getDetailsUid() async {
+    List<UserModel> usersModelData = [];
+    UserModel userData;
+
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
+    final collection = await firebaseFirestore.collection("users").get();
+    collection.docs.forEach((user) {
+      userData = UserModel(
+        uid: user.get("uid"),
+        email: user.get('email'),
+        firstName: user.get('firstName'),
+        secondName: user.get('secondName'),
+        role: user.get('role'),
+        manager: user.get('manager'),
+        days: user.get('days'),
+        managedUsers: user.get('managedUsers'),
+      );
+      usersModelData.add(userData);
+      print(usersModelData);
+    });
+
+    print(collection.docs.last.get("uid"));
+
+    Fluttertoast.showToast(msg: "Account created successfully :) ");
+    return usersModelData;
+  }
+
   deleteUid(String Uid) async {
     // calling our firestore
     // calling our user model
@@ -559,7 +588,7 @@ class _UserScreenState extends State<UserScreen> {
     // userModel.role = roleController.text;
 
     await firebaseFirestore.collection("users").doc(Uid).delete();
-    Fluttertoast.showToast(msg: "Account created successfully :) ");
+    Fluttertoast.showToast(msg: "Account deleted successfully :) ");
   }
 
   void signUp(String email, String password) async {
